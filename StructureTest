@@ -1,0 +1,211 @@
+import sys
+from datetime import datetime as dttm
+pth = "C:\\Users\\myusername\\GitHubLocal\\Assemble\\JsonDB\\Src"
+sys.path.append(pth)
+import DbControl as dbc
+
+
+def set_value_test():
+# def testing1():
+    x = dbc.set_value()
+    print(x)
+    return 0
+
+
+# def get_value_test():
+def testing1():
+    param = []
+    param.append("process_config.json")
+    param.append("Netezza")
+    param.append("Sch_Member_Call_Schedule")
+    param.append("Transfer_Type")
+    con = dbc.DbConnect("ProcessConfig")
+    x = dbc.get_value(con, param)
+    print(x)
+    return 0
+
+
+def remove_field_test():
+# def testing1():
+    dbname = "ProcessConfig"
+    proc_con = dbc.DbConnect(dbname)
+    proc_con.pull_json_file("process_config.json")
+    proc_con.activate_file_object("Netezza")
+    proc_con.remove_object_field("Table Owner")
+    proc_con.save_json_file()
+    return 0
+
+
+def add_field_test():
+# def testing1():
+    dbname = "ProcessConfig"
+    proc_con = dbc.DbConnect(dbname)
+    proc_con.pull_json_file("process_config.json")
+    proc_con.activate_file_object("Netezza")
+    proc_con.add_object_field("Table Owner")
+    proc_con.save_json_file()
+    return 0
+
+
+def save_json_file_test():
+# def testing1():
+    dbname = "ProcessConfig"
+    proc_con = dbc.DbConnect(dbname)
+    proc_con.pull_json_file("process_config.json")
+    proc_con.activate_file_object("Netezza")
+    proc_con.select_object_entry("Sch_Member_Call_Schedule")
+    proc_con.select_object_field("Transfer_Type")
+    proc_con.set_field_value("AppendDaily1")
+    proc_con.save_json_file()
+    return 0
+
+
+def save_json_file_test():
+# def testing1():
+    dbname = "ProcessConfig"
+    proc_con = dbc.DbConnect(dbname)
+    proc_con.pull_json_file("process_config.json")
+    proc_con.activate_file_object("Netezza")
+    proc_con.select_object_entry("Sch_Member_Call_Schedule")
+    proc_con.select_object_field("Transfer_Type")
+    proc_con.set_field_value("AppendDaily1")
+    proc_con.save_json_file()
+    return 0
+
+
+def set_field_value_test():
+# def testing1():
+    dbname = "ProcessConfig"
+    proc_con = dbc.DbConnect(dbname)
+    proc_con.pull_json_file("process_config.json")
+    proc_con.activate_file_object("Netezza")
+    proc_con.select_object_entry("Sch_Member_Call_Schedule")
+    proc_con.select_object_field("Transfer_Type")
+    proc_con.set_field_value("AppendDaily1")
+    print(proc_con.current_field_value)
+    return 0
+
+
+def get_field_value_test():
+# def testing1():
+    dbname = "ProcessConfig"
+    proc_con = dbc.DbConnect(dbname)
+    proc_con.pull_json_file("process_config.json")
+    proc_con.activate_file_object("Netezza")
+    proc_con.select_object_entry("Sch_Member_Call_Schedule")
+    proc_con.select_object_field("Last_Transfer")
+    proc_con.get_field_value()
+    print(proc_con.current_field_value)
+    return 0
+
+
+def select_object_field_test():
+# def testing1():
+    dbname = "ProcessConfig"
+    proc_con = dbc.DbConnect(dbname)
+    proc_con.pull_json_file("process_config.json")
+    proc_con.activate_file_object("Netezza")
+    proc_con.select_object_entry("Sch_Member_Call_Schedule")
+    proc_con.select_object_field("Transfer_Type")
+    print(proc_con.current_object_field)
+    return 0
+
+
+def list_object_fields_test():
+# def testing1():
+    dbname = "ProcessConfig"
+    proc_con = dbc.DbConnect(dbname)
+    proc_con.pull_json_file("process_config.json")
+    proc_con.activate_file_object("Netezza")
+    proc_con.select_object_entry("Sch_Member_Call_Schedule")
+    lst = proc_con.list_object_fields()
+    for i in lst:
+        print(i)
+    return 0
+
+
+def select_object_entry():
+# def testing1():
+    dbname = "ProcessConfig"
+    proc_con = dbc.DbConnect(dbname)
+    proc_con.pull_json_file("process_config.json")
+    proc_con.activate_file_object("Netezza")
+    proc_con.select_object_entry("Sch_Member_Call_Schedule")
+    print(proc_con.current_object_entry)
+    return 0
+
+
+def list_object_entries_test():
+# def testing1():
+    dbname = "ProcessConfig"
+    proc_con = dbc.DbConnect(dbname)
+    proc_con.pull_json_file("process_config.json")
+    proc_con.activate_file_object("Netezza")
+    lst = proc_con.list_object_entries()
+    for i in lst:
+        print(i)
+    return 0
+
+def activate_file_object_test():
+# def testing1():
+    dbname = "ProcessConfig"
+    proc_con = dbc.DbConnect(dbname)
+    proc_con.pull_json_file("process_config.json")
+    # proc_con.pull_json_file("processsss_config.json")
+    proc_con.activate_file_object("Netezza")
+    return 0
+
+
+def list_file_objects_test():
+# def testing1():
+    dbname = "ProcessConfig"
+    proc_con = dbc.DbConnect(dbname)
+    # jdata = proc_con.pull_json_file("process_config.json")
+    # print(jdata)
+    # print("\n\n\n")
+    obj_list = proc_con.list_file_objects()
+    for i in obj_list:
+        print(i)
+    return 0
+
+
+def pull_json_file_test():
+# def testing1():
+    dbname = "ProcessConfig"
+    proc_con = dbc.DbConnect(dbname)
+    jdata = proc_con.pull_json_file("processssss_config.json")  #will return error message
+    # jdata = proc_con.pull_json_file("process_config.json")
+    jdata2 = proc_con.current_file
+    print(jdata)
+    print("\n\n\n")
+    print(jdata2)
+
+    return 0
+
+
+def DbConnect_class_test():
+# def testing1():
+    dbname = "ProcessConfig"
+    proc_con = dbc.DbConnect(dbname)
+    list = proc_con.filelist
+    for i in list:
+        print(i)
+    return 0
+
+
+def list_dbnames_test():
+# def testing1():
+    dirlist = dbc.list_dbnames()
+    x = 1
+    for i in dirlist:
+        print(str(x) + ": " + i)
+        x += 1
+    return 0
+
+
+nw0 = dttm.now()
+# t1.activate_file_object_test()
+testing1()
+nw1 = dttm.now()
+diff = nw1-nw0
+print(("Run Time: " + str(diff)))
