@@ -1,0 +1,265 @@
+import sys, os, json
+
+main_path = "C:\\Users\\myusername\\GitHubLocal\\Assemble\\JsonDB\\Src"
+
+class DbConnect:
+
+    def __init__(self, dbname):
+        self.dbname = dbname
+        self.dbpath = (main_path + "\\DataBases\\" + self.dbname)
+        self.file_list = None
+        self.current_file = None
+        self.current_file_path = None
+        self.object_list = None
+        self.current_file_object = None
+        self.entry_list = None
+        self.current_object_entry = None
+        self.field_list = None
+        self.current_object_field = None
+        self.current_field_value = None
+
+
+    def get_file_list(self):
+        filewalk = next(os.walk(self.dbpath))[2]
+        filelist = []
+        for files in filewalk:
+            if files != "__init__.py":
+                filelist.append(files)
+        return filelist
+
+
+    def pull_json_file(self, filename):
+        self.file_list = self.get_file_list()
+        if filename in self.file_list:
+            flnm = (self.dbpath + "\\" + filename)
+            with open(flnm, 'r') as f:
+                jdata = json.load(f)
+            self.current_file = jdata
+            self.current_file_path = flnm
+            return jdata
+        else:
+            print("No Such File")
+            return 1
+
+
+    def list_file_objects(self):
+        obj_list = []
+        for i in self.current_file:
+            obj_list.append(i)
+        return obj_list
+
+
+    def activate_file_object(self, objectname):
+        if self.current_file == None:
+            print("No File Selected, Cannont Activate File Object")
+            return "No File Selected, Cannont Activate File Object"
+        else:
+            self.object_list = self.list_file_objects()
+            if objectname not in self.object_list:
+                print("No Such Object In Current File")
+                return "No Such Object In Current File"
+            else:
+                self.current_file_object = objectname
+                print("Current File Object Activated")
+                return "Current File Object Activated"
+
+
+    def list_object_entries(self):
+        entrylst = []
+        if self.current_file == None:
+            entrylst.append("No File Currently Selected")
+            print("No File Currently Selected")
+        else:
+            if self.current_file_object == None:
+                entrylst.append("No Object Currently Activated")
+                print("No Object Currently Activated")
+            else:
+                for i in self.current_file[self.current_file_object]:
+                    entrylst.append(i)
+        return entrylst
+
+
+    def select_object_entry(self, objectentry):
+        if self.current_file == None:
+            print("No File Currently Selected")
+            return "No File Currently Selected"
+        else:
+            if self.current_file_object == None:
+                print("No Object Currently Activated")
+                return "No Object Currently Activated"
+            else:
+                self.entry_list = self.list_object_entries()
+                if objectentry not in self.entry_list:
+                    print("No Such Entry")
+                    return "No Such Entry"
+                else:
+                    self.current_object_entry = objectentry
+                    print("Current Object Entry Selected")
+                    return "Current Object Entry Selected"
+
+
+    def list_object_fields(self):
+        fieldlst = []
+        if self.current_file == None:
+            fieldlst.append("No File Currently Selected")
+            print("No File Currently Selected")
+        else:
+            if self.current_file_object == None:
+                fieldlst.append("No Object Currently Activated")
+                print("No Object Currently Activated")
+            else:
+                if self.current_object_entry == None:
+                    fieldlst.append("No Entry Currently Selected")
+                    print("No Entry Currently Selected")
+                else:
+                    for i in self.current_file[self.current_file_object][self.current_object_entry]:
+                        fieldlst.append(i)
+        return fieldlst
+
+
+    def select_object_field(self, fieldname):
+        if self.current_file == None:
+            print("No File Currently Selected")
+            return "No File Currently Selected"
+        else:
+            if self.current_file_object == None:
+                print("No Object Currently Activated")
+                return "No Object Currently Activated"
+            else:
+                if self.current_object_entry == None:
+                    print("No Object Entry Currently Selected")
+                    return "No Object Entry Currently Selected"
+                else:
+                    self.field_list = self.list_object_fields()
+                    if fieldname not in self.field_list:
+                        print("No Such Field In Current Entry")
+                        return "No Such Field In Current Entry"
+                    else:
+                        self.current_object_field = fieldname
+                        print("Current Object Field Selected")
+                        return "Current Object Field Selected"
+
+
+    def get_field_value(self):
+        if self.current_file == None:
+            print("No File Currently Selected")
+            return "No File Currently Selected"
+        else:
+            if self.current_file_object == None:
+                print("No Object Currently Activated")
+                return "No Object Currently Activated"
+            else:
+                if self.current_object_entry == None:
+                    print("No Object Entry Currently Selected")
+                    return "No Object Entry Currently Selected"
+                else:
+                    self.field_list = self.list_object_fields()
+                    if self.current_object_field == None:
+                        print("No Field Currently Selected")
+                        return "No Field Currently Selected"
+                    else:
+                        fl = self.current_file
+                        ob = self.current_file_object
+                        ent = self.current_object_entry
+                        fld = self.current_object_field
+                        self.current_field_value = fl[ob][ent][fld]
+                        return fl[ob][ent][fld]
+
+
+    def set_field_value(self, fvalue):
+        if self.current_file == None:
+            print("No File Currently Selected")
+            return "No File Currently Selected"
+        else:
+            if self.current_file_object == None:
+                print("No Object Currently Activated")
+                return "No Object Currently Activated"
+            else:
+                if self.current_object_entry == None:
+                    print("No Object Entry Currently Selected")
+                    return "No Object Entry Currently Selected"
+                else:
+                    self.field_list = self.list_object_fields()
+                    if self.current_object_field == None:
+                        print("No Field Currently Selected")
+                        return "No Field Currently Selected"
+                    else:
+                        fl = self.current_file
+                        ob = self.current_file_object
+                        ent = self.current_object_entry
+                        fld = self.current_object_field
+                        old_value = fl[ob][ent][fld]
+                        self.current_field_value = fvalue
+                        fl[ob][ent][fld] = fvalue
+                        new_value = fl[ob][ent][fld]
+                        print(("Value changed from " + old_value + " to " + new_value))
+                        return ("Value changed from " + old_value + " to " + new_value)
+
+
+    def save_json_file(self):
+        if self.current_file == None:
+            print("No json file currently loaded")
+            return "No json file currently loaded"
+        else:
+            dict_obj = self.current_file
+            json_obj = json.dumps(dict_obj)
+            with open(self.current_file_path, 'w') as f:
+                f.write(json_obj)
+            print("Json file Saved")
+            return "Json file saved"
+
+
+    def add_object_field(self, fieldname):
+        if self.current_file == None or self.current_file_object == None:
+            print("Please Select a File and a File Object")
+            return "Please Select a File and a File Object"
+        else:
+            x = self.current_file[self.current_file_object]
+            for i in x:
+                if fieldname in x[i].keys():
+                    print("Field Name Already Exists")
+                    return "Field Name Already Exists"
+                else:
+                    x[i][fieldname] = ""
+        return "Field \"" + fieldname + "\" Created"
+
+
+    def remove_object_field(self, fieldname):
+        if self.current_file == None or self.current_file_object == None:
+            print("Please Select a File and a File Object")
+            return "Please Select a File and a File Object"
+        else:
+            x = self.current_file[self.current_file_object]
+            for i in x:
+                if fieldname not in x[i].keys():
+                    print("Field Name Doesn't Exists")
+                    return "Field Name Doesn't Exists"
+                else:
+                    del x[i][fieldname]
+        print("Field \"" + fieldname + "\" Removed")
+        return "Field \"" + fieldname + "\" Removed"
+
+
+def get_value(con, params):
+    con.pull_json_file(params[0])
+    con.activate_file_object(params[1])
+    con.select_object_entry(params[2])
+    con.select_object_field(params[3])
+    return con.get_field_value()
+
+def set_value():
+    con = DbConnect("ProcessConfig")
+    con.pull_json_file("process_config.json")
+    con.activate_file_object("Netezza")
+    con.select_object_entry("Sch_Member_Call_Schedule")
+    con.select_object_field("Transfer_Type")
+    con.set_field_value("AppendDaily1")
+    return con.get_field_value()
+
+def list_dbnames():
+    dirwalk = next(os.walk(main_path))[1]
+    dirlist = []
+    for dirs in dirwalk:
+        if dirs != "__pycache__":
+            dirlist.append(dirs)
+    return dirlist
