@@ -222,7 +222,7 @@ class DbConnect:
                 else:
                     x[i][fieldname] = ""
         #return "Field \"" + fieldname + "\" Created"
-        return "Field \"{fieldname}\" Created"
+        return "Field \"{fieldname}\" Created".format(fieldname)
 
     def remove_object_field(self, fieldname):
         if self.current_file == None or self.current_file_object == None:
