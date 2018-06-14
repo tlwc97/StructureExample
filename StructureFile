@@ -221,8 +221,8 @@ class DbConnect:
                     return "Field Name Already Exists"
                 else:
                     x[i][fieldname] = ""
-        return "Field \"" + fieldname + "\" Created"
-
+        #return "Field \"" + fieldname + "\" Created"
+        return "Field \"{fieldname}\" Created"
 
     def remove_object_field(self, fieldname):
         if self.current_file == None or self.current_file_object == None:
